@@ -30,12 +30,13 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
 </head>
 
 <body ng-app="auctionAppModule" ng-controller="AuctionAppController as demoApp">
+    <!--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="site-header">Auction - CorDapp</div>
         </div>
     </nav>
-
+    -->
     <!-- Auction Listing Start -->
     <div class="row">
         <div class="col-md-1"></div>
@@ -64,8 +65,11 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
                         </div>
                     </div>
                     <div>
+                        <!--
                         <div ng-show="!demoApp.auctions.length" class="panel-body">Use the "Create Auction" button to create an auction.</div>
+                        -->
                         <div ng-repeat="auction in demoApp.auctions" class="panel panel-default">
+                            <!--
                             <div class="bs-callout bs-callout-danger pull-right">
                                 <h4 ng-class="(auction.auctionActive==true) ? 'auction-live' : 'auction-closed'">
                                     <span ng-if="auction.auctionActive==true">
@@ -76,6 +80,7 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
                                     </span>
                                 </h4>
                             </div>
+                            -->
                             <div class="panel-body panel-border">
                                 <div class="auctionId">
                                     <h4>Auction ID - {{auction.linearId.id}}</h4>
@@ -88,10 +93,12 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
                                                     <th>Item Name</th>
                                                     <td>{{auction.itemName}}</td>
                                                 </tr>
+                                                <!--
                                                 <tr>
                                                     <th>Item Description</th>
                                                     <td>{{auction.itemDescription}}</td>
                                                 </tr>
+                                                -->
                                                 <tr>
                                                     <th>Expiry Date</th>
                                                     <td>{{auction.expiryDate}}</td>
@@ -112,7 +119,7 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Highest Bid (participant)</th>
+                                                    <th>Highest bidder</th>
                                                     <td>
                                                         <span ng-if="auction.auctionWinner==null">
                                                             -
@@ -125,8 +132,8 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
                                             </table>
                                         </div>
                                         <div class="col-xs-5">
-                                            <button ng-if="(auction.auctionActive==true)" ng-click="demoApp.openBidModal(auction.linearId.id)" type="button" class="btn btn-primary">Bid</button>
-                                            <button ng-click="demoApp.openTransactionDetailsModal(auction.linearId.id)" type="button" class="btn btn-primary">Transaction Details</button>
+                                            <button ng-if="(auction.auctionActive==true && auction.itemOwner!==demoApp.thisNode)" ng-click="demoApp.openBidModal(auction.linearId.id)" type="button" class="btn btn-primary">Make bid</button>
+                                            <!--<button ng-click="demoApp.openTransactionDetailsModal(auction.linearId.id)" type="button" class="btn btn-primary">Transaction Details</button>-->
                                             <button ng-if="(auction.itemOwner==demoApp.thisNode)" ng-click="demoApp.closeAuction(auction.linearId.id)" type="button" class="btn btn-primary">Close Auction</button>
                                         </div>
                                     </div>
@@ -149,31 +156,36 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
         </div>
         <form>
             <div class="modal-body">
+                <!--
                 <div class="form-group">
-                    <label for="auctionType" class="control-label">Auction Type:</label><br>
+                    <label for="auctionType" class="control-label">Auction members</label><br>
+
                     <input ng-model="modalInstance.form.auctionType" type="radio" name="gender" value="Open"> Open to All
                     <input ng-model="modalInstance.form.auctionType" type="radio" name="gender" value="Private"> Private
                 </div>
                 <div class="form-group">
+
                     <label for="auctionParticipants" class="control-label">Auction Participants (Only if auction is Private):</label>
-                    <select multiple ng-model="modalInstance.form.auctionParticipants" class="form-control" id="auctionParticipants" ng-options="peer as peer for peer in modalInstance.peers">
-                    </select>
+                    <label class="form-control"> {{modalInstance.form.auctionParticipants}} </label>
                 </div>
+                -->
                 <div class="form-group">
                     <label for="itemName" class="control-label">Item Name:</label>
                     <input type="text" ng-model="modalInstance.form.itemName" class="form-control" id="itemName">
                 </div>
+                <!--
                 <div class="form-group">
                     <label for="itemDescription" class="control-label">Item Description:</label>
                     <input type="text" ng-model="modalInstance.form.itemDescription" class="form-control" id="itemDescription">
                 </div>
+                -->
                 <div class="form-group">
-                    <label for="startPrice" class="control-label">Auction Start Price (Int):</label>
+                    <label for="startPrice" class="control-label">Start Price (Int):</label>
                     <input type="text" ng-model="modalInstance.form.startPrice" class="form-control" id="startPrice">
                 </div>
                 <div class="form-group">
-                    <label for="expiryDate" class="control-label">Expiry Date (Instant) (In Zulu format):</label>
-                    <input type="text" ng-model="modalInstance.form.expiryDate" class="form-control" id="expiryDate" placeholder="2018-12-31T00:00:00Z">
+                    <label for="expiryDate" class="control-label">Expiry Date (ad es 2019-12-31T00:00:00Z)</label>
+                    <input type="text" ng-model="modalInstance.form.expiryDate" class="form-control" id="expiryDate">
                 </div>
                 <div ng-show="modalInstance.formError" class="form-group">
                     <div class="alert alert-danger" role="alert">
@@ -256,8 +268,6 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
         </div>
     </script>
     <!-- Message Content End -->
-
-
 
 </body>
 

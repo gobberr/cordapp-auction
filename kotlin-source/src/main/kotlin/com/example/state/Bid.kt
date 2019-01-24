@@ -32,5 +32,4 @@ data class Bid(
     }
     override fun supportedSchemas(): Iterable<MappedSchema> = listOf(BidSchemaV1)
 
-
 }

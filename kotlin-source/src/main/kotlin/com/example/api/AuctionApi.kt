@@ -92,13 +92,13 @@ class AuctionApi(private val rpcOps: CordaRPCOps) {
      */
     @PUT
     @Path("create-auction")
-    fun createAuction(@QueryParam("itemName") itemName: String,@QueryParam("ItemDescription") ItemDescription: String,@QueryParam("startPrice") startPrice: Int,@QueryParam("ExpiryDate") ExpiryDate: String,@QueryParam("AuctionParticipants") AuctionParticipants: String): Response {
+    fun createAuction(@QueryParam("itemName") itemName: String,@QueryParam("startPrice") startPrice: Int,@QueryParam("ExpiryDate") ExpiryDate: String,@QueryParam("AuctionParticipants") AuctionParticipants: String): Response {
         if (startPrice <= 0 ) {
             return Response.status(BAD_REQUEST).entity("Query parameter 'start Price' must be non-negative.\n").build()
         }
 
         return try {
-            val signedTx = rpcOps.startTrackedFlow(::StartAuction, itemName, ItemDescription, startPrice, ExpiryDate, AuctionParticipants).returnValue.getOrThrow()
+            val signedTx = rpcOps.startTrackedFlow(::StartAuction, itemName, /*ItemDescription*/"ItemDescription", startPrice, ExpiryDate, AuctionParticipants).returnValue.getOrThrow()
             Response.status(CREATED).entity("Transaction id ${signedTx.id} committed to ledger.\n").build()
         } catch (ex: Throwable) {
             logger.error(ex.message, ex)

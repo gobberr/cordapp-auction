@@ -118,11 +118,8 @@ app.controller('CreateAuctionCtrl', function ($http, $location, $uibModalInstanc
             $uibModalInstance.close();
 
             var AuctionParticipants = 'None';
-            if (modalInstance.form.auctionType === 'Private'){
-                AuctionParticipants = modalInstance.form.auctionParticipants.join('$');
-            }
 
-            const createAuctionEndpoint = `${apiBaseURL}create-auction?itemName=${modalInstance.form.itemName}&ItemDescription=${modalInstance.form.itemDescription}&startPrice=${modalInstance.form.startPrice}&ExpiryDate=${modalInstance.form.expiryDate}&AuctionParticipants=${AuctionParticipants}`;
+            const createAuctionEndpoint = `${apiBaseURL}create-auction?itemName=${modalInstance.form.itemName}&startPrice=${modalInstance.form.startPrice}&ExpiryDate=${modalInstance.form.expiryDate}&AuctionParticipants=${AuctionParticipants}`;
             // Create Auction and handle success / fail responses.
             $http.put(createAuctionEndpoint).then(
                 (result) => {
