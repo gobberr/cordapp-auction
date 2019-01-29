@@ -57,7 +57,7 @@ class AuctionContract : Contract {
         val bidOutput = tx.outputsOfType<Bid>().single()
 
         // Assert stuff about the bid in relation to the auction state.
-        "The bid must be for this acution." using (bidOutput.auctionReference == auctionOutput.linearId)
+        "The bid must be for this auction." using (bidOutput.auctionReference == auctionOutput.linearId)
         "The auction must be updated by the amount bided." using (bidOutput.amount == auctionOutput.highestBid)
         "The bid must be higher than start price" using (bidOutput.amount > auctionOutput.startPrice)
         "The bid must be higher than highest bid" using (bidOutput.amount > auctionInput.highestBid)

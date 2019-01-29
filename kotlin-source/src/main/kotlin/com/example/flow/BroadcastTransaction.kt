@@ -5,6 +5,7 @@ import com.sun.org.apache.xalan.internal.lib.NodeInfo
 import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.InitiatingFlow
 import net.corda.core.flows.SendTransactionFlow
+import net.corda.core.identity.CordaX500Name
 import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
 
@@ -30,8 +31,16 @@ class BroadcastTransaction(val stx: SignedTransaction,val nodes: List<Party>) : 
             }
         }
 
+        // Get networkmap node in order to filter it
+        val networkMapName = CordaX500Name(
+                organisation = "Networkmap",
+                locality = "London",
+                country = "GB")
+
+        val networkMap: Party = serviceHub.identityService.wellKnownPartyFromX500Name(networkMapName) ?: throw IllegalArgumentException("Couldn't find node Networkmap")
+
         // Filter out the notary identities and remove our identity.
-        val everyoneButMeAndNotary = everyone.filter { serviceHub.networkMapCache.isNotary(it).not() } - ourIdentity
+        val everyoneButMeAndNotary = everyone.filter { serviceHub.networkMapCache.isNotary(it).not() } - ourIdentity - networkMap
 
         // Create a session for each remaining party.
         val sessions = everyoneButMeAndNotary.map { initiateFlow(it) }
@@ -39,5 +48,4 @@ class BroadcastTransaction(val stx: SignedTransaction,val nodes: List<Party>) : 
         // Send the transaction to all the remaining parties.
         sessions.forEach { subFlow(SendTransactionFlow(it, stx)) }
     }
-
 }

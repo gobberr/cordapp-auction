@@ -132,7 +132,7 @@ object MakeBid {
 
             // As the manager, we might want to do some checking of the bid before we sign it.
             val flow = object : SignTransactionFlow(otherSession) {
-                override fun checkTransaction(stx: SignedTransaction) = Unit // TODO: Add some checks here.
+                override fun checkTransaction(stx: SignedTransaction) = Unit
             }
 
             val stx = subFlow(flow)
